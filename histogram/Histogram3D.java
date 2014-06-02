@@ -112,8 +112,8 @@ public class Histogram3D {
 	 * @return			A boolean indicating if the bin combination is valid
 	 */
 	private boolean isValidBins(int bx, int by, int bz) {
-		if ((bx >= 0 && bx < xAxis.getNBins()) && (by >= 0 && by < yAxis.getNBins())
-				&& (bz >= 0 && bz < zAxis.getNBins())) {
+		if ((bx >= 0 && bx <= xAxis.getNBins()) && (by >= 0 && by <= yAxis.getNBins())
+				&& (bz >= 0 && bz <= zAxis.getNBins())) {
 			return true;
 		}
 		return false;
@@ -210,11 +210,11 @@ public class Histogram3D {
 	 * @return		a 3-D array with the bin content
 	 */
 	public double[][][] getContentBuffer() {
-		double[][][] buff = new double[xAxis.getNBins()][yAxis.getNBins()][zAxis.getNBins()];
-		for (int xloop = 0; xloop < xAxis.getNBins(); xloop++) {
-			for (int yloop = 0; yloop < yAxis.getNBins(); yloop++) {
-				for (int zloop = 0; zloop < zAxis.getNBins(); zloop++) {
-					buff[xloop][yloop][xloop] = this.getBinContent(xloop, yloop, zloop);
+		double[][][] buff = new double[xAxis.getNBins()+1][yAxis.getNBins()+1][zAxis.getNBins()+1];
+		for (int zloop = 0; zloop <= zAxis.getNBins(); zloop++) {
+			for (int yloop = 0; yloop <= yAxis.getNBins(); yloop++) {
+				for (int xloop = 0; xloop <= xAxis.getNBins(); xloop++) {
+					buff[xloop][yloop][zloop] = this.getBinContent(xloop, yloop, zloop);
 				}
 			}
 		}
@@ -228,11 +228,11 @@ public class Histogram3D {
 	 * @return		A 3-D array with 0.0 for every element
 	 */
 	public double[][][] getErrorBuffer() {
-		double[][][] buff = new double[xAxis.getNBins()][yAxis.getNBins()][zAxis.getNBins()];
-		for (int xloop = 0; xloop < xAxis.getNBins(); xloop++) {
-			for (int yloop = 0; yloop < yAxis.getNBins(); yloop++) {
-				for (int zloop = 0; zloop < zAxis.getNBins(); zloop++) {
-					buff[xloop][yloop][xloop] = 0.0;
+		double[][][] buff = new double[xAxis.getNBins()+1][yAxis.getNBins()+1][zAxis.getNBins()+1];
+		for (int zloop = 0; zloop <= zAxis.getNBins(); zloop++) {
+			for (int yloop = 0; yloop <= yAxis.getNBins(); yloop++) {
+				for (int xloop = 0; xloop <= xAxis.getNBins(); xloop++) {
+					buff[xloop][yloop][zloop] = 0.0;
 				}
 			}
 		}
@@ -268,20 +268,15 @@ public class Histogram3D {
 				by_end - by_start, newYMin, newYMax, 
 				bz_end - bz_start, newZMin, newZMax);
 		
-		int by = 0;
-		int bz = 0;
 		double content = 0.0;
-		for (int x = bx_start; x < bx_end; x++) {
+		for (int z = bz_start; z < bz_end; z++) {
 			for (int y = by_start; y < by_end; y++) {
-				for (int z = bz_start; z < bz_end; z++) {
+				for (int x = bx_start; x < bx_end; x++) {
 					content = this.getBinContent(x, y, z);
-					regHist.fill(x, by, bz, content);
+					regHist.setBinContent(x, y, z, content);
 				}
-				bz = 0;
 			}
-			by = 0;
 		}
-		
 		return regHist;
 	}
 	
@@ -448,5 +443,9 @@ public class Histogram3D {
 			return yz;
 		}
 		return new Histogram2D();
+	}
+	
+	public double[] offset() {
+		return hBuffer;
 	}
 }

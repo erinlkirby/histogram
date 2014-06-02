@@ -1,8 +1,5 @@
 package cnuphys.histogram;
 
-import src.StatNumber;
-
-//StatNumber class
 /**
  * Defines the class to create a basic 1D Histogram
  * 
@@ -11,8 +8,8 @@ import src.StatNumber;
  */
 public class Histogram1D {
 
-    Axis  axisX;
-    Axis  axisY;
+    Axis  xAxis;
+    Axis  yAxis;
     double[]   histogramData;
     double[]   histogramDataError;
     String     histTitle = "";
@@ -22,7 +19,7 @@ public class Histogram1D {
     
     /**
      * The default constructor, which creates a Histogram1D object with the Name "default", 
-     * the Title "default", no Axis titles, and sets the minimum xaxis value to 0, the maximum x
+     * the Title "default", no Axis titles, and sets the minimum xAxis value to 0, the maximum x
      *  value to 1, and creates 1 bin. 
      */
     public Histogram1D() {
@@ -227,8 +224,8 @@ public class Histogram1D {
      * @param max		the desired maximum y value
      */
     public void set(int bins, double min, double max) {
-    	axisX = new Axis(bins, min, max);
-    	axisY = new Axis();
+    	xAxis = new Axis(bins, min, max);
+    	yAxis = new Axis();
     	initDataStore(bins);
     }
     
@@ -249,7 +246,7 @@ public class Histogram1D {
      * @param value		the value to increment
      */
     public void fill(double value) {
-    	incrementBinContent(axisX.getBin(value));
+    	incrementBinContent(xAxis.getBin(value));
     }
     
     /**
@@ -259,7 +256,7 @@ public class Histogram1D {
      * @param weight	the weight to increment by
      */
     public void fill(double value, double weight) {
-    	incrementBinContent(axisX.getBin(value), weight);
+    	incrementBinContent(xAxis.getBin(value), weight);
     }
     
     /**
@@ -335,7 +332,7 @@ public class Histogram1D {
      * @param value		the value to store in the specified bin
      */
     public void setBinContent(int bin, double value) {
-    	if ((bin <= 0) && (bin < histogramData.length)) {
+    	if ((bin >= 0) && (bin < histogramData.length)) {
     		histogramData[bin] = value;
     	}
     }
@@ -389,8 +386,8 @@ public class Histogram1D {
      * 
      * @return the x-axis of the histogram as an Axis object
      */
-    public Axis getAxisX() {
-        return axisX;
+    public Axis getxAxis() {
+        return xAxis;
     }
     
     /**
@@ -398,8 +395,8 @@ public class Histogram1D {
      * 
      * @return the y-axis of the histogram as an Axis object
      */
-    public Axis getAxisY() {
-        return axisY;
+    public Axis getyAxis() {
+        return yAxis;
     }
     
     /**
@@ -408,7 +405,7 @@ public class Histogram1D {
      * @return the x-axis of the histogram as an Axis object
      */
     public Axis getAxis() {
-        return axisX;
+        return xAxis;
     }
     
     /**
@@ -418,9 +415,9 @@ public class Histogram1D {
      */
     public String toString() {
         StringBuffer buffer = new StringBuffer();
-        for(int i = 0; i < axisX.getNBins(); i++) {
+        for(int i = 0; i < xAxis.getNBins(); i++) {
             buffer.append(String.format("%12.6f %12.6f %12.6f\n",
-                    axisX.getBinCenter(i),this.getBinContent(i),
+                    xAxis.getBinCenter(i),this.getBinContent(i),
                     this.getBinError(i)));
         }
         return buffer.toString();
@@ -451,4 +448,6 @@ public class Histogram1D {
     public double[] getDataError() {
     	return histogramDataError;
     }
+    
+    
 }

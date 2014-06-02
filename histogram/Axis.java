@@ -160,8 +160,8 @@ public class Axis implements Serializable {
      * @return			the bin where the specified value is in array indexing format
      */
     public int getBin(double xVal) {
-    	for (int i = 0; i < numBins; i++) {
-    		if (xVal >= axisMargins[i] && xVal <= axisMargins[i+1]) {
+    	for (int i = 0; i <= numBins; i++) {
+    		if ((xVal >= axisMargins[i] && xVal <= axisMargins[i+1])) { //There is data overlap here on the margins
     			return i;
     		}
     	}

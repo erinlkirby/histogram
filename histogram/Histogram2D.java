@@ -15,7 +15,7 @@ public class Histogram2D {
 	private Axis xAxis = new Axis();
 	private Axis yAxis = new Axis();
 	private double[] hBuffer = new double[1];
-
+	private MultiIndex offset = new MultiIndex();
 	
 	public Histogram2D() {
 		
@@ -60,8 +60,9 @@ public class Histogram2D {
 			double ymin, double ymax) {
 		xAxis.set(bx, xmin, xmax);
 		yAxis.set(by, ymin, ymax);
-		int blen = xAxis.getNBins() * yAxis.getNBins();
-		hBuffer = new double[blen];
+		offset = new MultiIndex(bx, by);
+		int buff = offset.getArraySize();
+		hBuffer = new double[buff];
 	}
 
 	/**
@@ -96,8 +97,8 @@ public class Histogram2D {
 	 * @return			The truth value of the validity of that bin
 	 */
 	private boolean isValidBins(int bx, int by) {
-		if ((bx >= 0) && (bx < xAxis.getNBins()) && (by >= 0)
-				&& (by < yAxis.getNBins())) {
+		if ((bx >= 0) && (bx <= xAxis.getNBins()) && (by >= 0)
+				&& (by <= yAxis.getNBins())) {
 			return true;
 		}
 		return false;
@@ -111,8 +112,9 @@ public class Histogram2D {
 	 * @return			The content at that bin
 	 */
 	public double getBinContent(int bx, int by) {
-		if (this.isValidBins(bx, by) == true) {
-			return hBuffer[bx + by * xAxis.getNBins()];
+		if (this.isValidBins(bx, by)) {
+			int buff = offset.getArrayIndex(bx, by);
+			return hBuffer[buff];
 		}
 		return 0.0;
 	}
@@ -124,8 +126,9 @@ public class Histogram2D {
 	 * @param w			The desired value to set the bin to
 	 */
 	public void setBinContent(int bx, int by, double w) {
-		if (this.isValidBins(bx, by) == true) {
-			hBuffer[bx + by * xAxis.getNBins()] = w;
+		if (this.isValidBins(bx, by)) {
+			int buff = offset.getArrayIndex(bx, by);
+			hBuffer[buff] = w;
 		}
 	}
 
@@ -143,7 +146,7 @@ public class Histogram2D {
 	
 	
 	public void fill(double x, double y, double w) {
-		int bin = this.findBin(x,  y);
+		int bin = this.findBin(x, y);
 		if (bin >= 0) {
 			this.addBinContent(bin, w);
 		}
@@ -178,9 +181,8 @@ public class Histogram2D {
 	public int findBin(double x, double y) {
 		int bx = xAxis.getBin(x);
 		int by = yAxis.getBin(y);
-		if ((bx >= 0) && (bx < xAxis.getNBins()) && (by >= 0)
-				&& (by < yAxis.getNBins())) {
-			return (bx + by * xAxis.getNBins());
+		if (this.isValidBins(bx, by)) {
+			return (offset.getArrayIndex(bx, by));
 		}
 		return -1;
 	}
@@ -237,12 +239,11 @@ public class Histogram2D {
 		Histogram2D regHist = new Histogram2D(name, bx_end - bx_start, newXMin, newXMax, 
 				by_end - by_start, newYMin, newYMax);
 		
-		int by = 0;
 		double content = 0.0;
-		for (int x = bx_start; x < bx_end; x++) {
-			for (int y = by_start; y < by_end; y++) {
+		for (int y = by_start; y < by_end; y++) {
+			for (int x = bx_start; x < bx_end; x++) {
 				content = this.getBinContent(x, y);
-				regHist.fill(x, by, content);
+				regHist.setBinContent(x, y, content);
 			}
 		}
 		return regHist;
@@ -255,20 +256,22 @@ public class Histogram2D {
 	 * @return	a Histogram1D object that is a projection of the Histogram2D object onto the x-axis
 	 */
 	public Histogram1D projectionX() {
-		double[] bins = new double[xAxis.getNBins()];
-		double binVal = 0.0;
-		for (int xBins = 0; xBins < bins.length; xBins++) {
-			binVal = 0.0;
-			for (int yBins = 0; yBins < yAxis.getNBins(); yBins++) {
-				binVal += this.getBinContent(xBins, yBins);
-			}
-			bins[xBins] = binVal;
-		}
 		String name = "X Projection";
 		double xMin = xAxis.min();
 		double xMax = xAxis.max();
-		Histogram1D proj = new Histogram1D(name, xMin, xMax, bins);
-		return proj;
+		int xNum = xAxis.getNBins() + 1;
+		Histogram1D projX = new Histogram1D(name,xNum, xMin, xMax);
+		
+		double height = 0.0;
+		for (int x = 0; x <= xAxis.getNBins(); x++) {
+			height = 0.0;
+			for(int y = 0; y <= yAxis.getNBins(); y++) {
+				height += this.getBinContent(x, y);
+			}
+			projX.setBinContent(x, height);
+		}
+	
+		return projX;
 	}
 	
 	/**
@@ -278,38 +281,22 @@ public class Histogram2D {
 	 * @return	a Histogram1D object that is a projection of the Histogram2D object onto the y-axis
 	 */
 	public Histogram1D projectionY() {
-		double[] bins = new double[yAxis.getNBins()];
-		double binVal = 0.0;
-		for (int yBins = 0; yBins < bins.length; yBins++) {
-			binVal = 0.0;
-			for (int xBins = 0; xBins < xAxis.getNBins(); xBins++) {
-				binVal += this.getBinContent(xBins, yBins);
-			}
-			bins[yBins] = binVal;
-		}
 		String name = "Y Projection";
 		double yMin = yAxis.min();
 		double yMax = yAxis.max();
-		Histogram1D proj = new Histogram1D(name, yMin, yMax, bins);
-		return proj;
-	}
-	
-	
-	/**
-	 * Creates a 1-D Histogram slice of the specified x Bin 
-	 * @param xBin		the bin on the x axis to create a slice of
-	 * @return			a slice of the y bins on the specified x bin as a 1-D Histogram 
-	 */
-	public Histogram1D sliceX(int xBin) {
-		double[] binHeights = new double[yAxis.getNBins()];
-		for (int yBins = 0; yBins < binHeights.length; yBins++) {
-			binHeights[yBins] = this.getBinContent(yBins, xBin);
+		int yNum = yAxis.getNBins() + 1;
+		Histogram1D projY = new Histogram1D(name,yNum, yMin, yMax);
+		
+		double height = 0.0;
+		for (int y = 0; y <= yAxis.getNBins(); y++) {
+			height = 0.0;
+			for(int x = 0; x <= xAxis.getNBins(); x++) {
+				height += this.getBinContent(x, y);
+			}
+			projY.setBinContent(y, height);
 		}
-		String name = "Slice of " + xBin + " Bin on X Axis";
-		double yMin = yAxis.min();
-		double yMax = yAxis.max();
-		Histogram1D slice = new Histogram1D(name, yMin, yMax, binHeights);
-		return slice;
+	
+		return projY;
 	}
 	
 	/**
@@ -317,15 +304,40 @@ public class Histogram2D {
 	 * @param yBin		the bin on the y axis to create a slice of
 	 * @return			a slice of the x bins on the specified y bin as a 1-D Histogram 
 	 */
-	public Histogram1D sliceY(int yBin) {
-		double[] binHeights = new double[xAxis.getNBins()];
-		for (int xBins = 0; xBins < binHeights.length; xBins++) {
-			binHeights[xBins] = this.getBinContent(xBins, yBin);
-		}
-		String name = "Slice of " + yBin + " Bin on Y Axis";
+	public Histogram1D sliceX(int xBin) {
+		String name = "Slice of " + xBin + " X Bin";
 		double xMin = xAxis.min();
 		double xMax = xAxis.max();
-		Histogram1D slice = new Histogram1D(name, xMin, xMax, binHeights);
-		return slice;
+		int xNum = xAxis.getNBins() + 1;
+		Histogram1D sliceX = new Histogram1D(name, xNum, xMin, xMax);
+		
+		for (int x = 0; x <= xNum; x++) {
+				sliceX.setBinContent(x, this.getBinContent(x, xBin));
+		}
+		
+		return sliceX;
+	}
+	
+	/**
+	 * Creates a 1-D Histogram slice of the specified x Bin 
+	 * @param xBin		the bin on the x axis to create a slice of
+	 * @return			a slice of the y bins on the specified x bin as a 1-D Histogram 
+	 */
+	public Histogram1D sliceY(int yBin) {
+		String name = "Slice of " + yBin + " Y Bin";
+		double yMin = yAxis.min();
+		double yMax = yAxis.max();
+		int yNum = yAxis.getNBins() + 1;
+		Histogram1D sliceY = new Histogram1D(name, yNum, yMin, yMax);
+		
+		for (int y = 0; y <= yNum; y++) {
+				sliceY.setBinContent(y, this.getBinContent(yBin, y));
+		}
+		
+		return sliceY;
+	}
+	
+	public double[] offset() {
+		return hBuffer;
 	}
 }
