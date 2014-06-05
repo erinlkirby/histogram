@@ -1,4 +1,4 @@
-package cnuphys.histogram;
+package org.jlab.cnuphys.histogram;
 
 
 

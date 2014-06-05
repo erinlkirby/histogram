@@ -1,4 +1,4 @@
-package cnuphys.histogram;
+package org.jlab.cnuphys.histogram;
 
 /**
  * Specifies the characteristics to create DataPoints object
@@ -26,7 +26,7 @@ public class DataPoints {
      * 
      * @param size		the number of data points
      */
-    public void set(int size) {
+    public final void set(int size) {
     	xpoint = new double[size];
     	ypoint = new double[size];
     	xerror = new double[size];

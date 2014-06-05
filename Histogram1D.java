@@ -1,4 +1,4 @@
-package cnuphys.histogram;
+package org.jlab.cnuphys.histogram;
 
 /**
  * Defines the class to create a basic 1D Histogram
@@ -134,7 +134,7 @@ public class Histogram1D {
      * 
      * @param title		The desired title of the histogram
      */
-    public void setTitle(String title) {
+    public final void setTitle(String title) {
     	histTitle = title;
     }
     
@@ -143,7 +143,7 @@ public class Histogram1D {
      * 
      * @param name		The desired name of the histogram
      */
-    public void setName(String name) {
+    public final void setName(String name) {
     	histName = name;
     }
     
@@ -223,7 +223,7 @@ public class Histogram1D {
      * @param min		the desired minimum x value
      * @param max		the desired maximum y value
      */
-    public void set(int bins, double min, double max) {
+    public final void set(int bins, double min, double max) {
     	xAxis = new Axis(bins, min, max);
     	yAxis = new Axis();
     	initDataStore(bins);

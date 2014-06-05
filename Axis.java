@@ -1,4 +1,4 @@
-package cnuphys.histogram;
+package org.jlab.cnuphys.histogram;
 
 import java.io.Serializable;
 
@@ -49,7 +49,7 @@ public class Axis implements Serializable {
 	 * 
 	 * @param limits	the desired limits for the bins on the axis
 	 */
-	public void set(double[] limits) {
+	public final void set(double[] limits) {
 		axisMargins = new double[limits.length];
         for (int i=0; i<limits.length; i++) {
         	axisMargins[i] = limits[i];

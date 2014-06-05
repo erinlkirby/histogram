@@ -1,4 +1,4 @@
-package cnuphys.histogram;
+package org.jlab.cnuphys.histogram;
 
 /**
  * Creates a StatNumber object with a number and an error.

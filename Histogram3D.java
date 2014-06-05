@@ -1,4 +1,4 @@
-package cnuphys.histogram;
+package org.jlab.cnuphys.histogram;
 
 /**
  * Specifies the definition for creating and modifying 3-D Histograms.
