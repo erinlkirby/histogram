@@ -134,7 +134,11 @@ public class Histogram1D {
      * 
      * @param title		The desired title of the histogram
      */
+<<<<<<< HEAD
     public void setTitle(String title) {
+=======
+    public final void setTitle(String title) {
+>>>>>>> f96f98474222705511eda57020f70a0eca7bcbdc
     	histTitle = title;
     }
     
@@ -143,7 +147,11 @@ public class Histogram1D {
      * 
      * @param name		The desired name of the histogram
      */
+<<<<<<< HEAD
     public void setName(String name) {
+=======
+    public final void setName(String name) {
+>>>>>>> f96f98474222705511eda57020f70a0eca7bcbdc
     	histName = name;
     }
     
@@ -223,7 +231,11 @@ public class Histogram1D {
      * @param min		the desired minimum x value
      * @param max		the desired maximum y value
      */
+<<<<<<< HEAD
     public void set(int bins, double min, double max) {
+=======
+    public final void set(int bins, double min, double max) {
+>>>>>>> f96f98474222705511eda57020f70a0eca7bcbdc
     	xAxis = new Axis(bins, min, max);
     	yAxis = new Axis();
     	initDataStore(bins);

@@ -26,7 +26,11 @@ public class DataPoints {
      * 
      * @param size		the number of data points
      */
+<<<<<<< HEAD
     public void set(int size) {
+=======
+    public final void set(int size) {
+>>>>>>> f96f98474222705511eda57020f70a0eca7bcbdc
     	xpoint = new double[size];
     	ypoint = new double[size];
     	xerror = new double[size];

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 package wh;
+=======
+package org.jlab.cnuphys.histogram;
+>>>>>>> f96f98474222705511eda57020f70a0eca7bcbdc
 
 /**
  * Creates a StatNumber object with a number and an error.

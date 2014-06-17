@@ -49,7 +49,11 @@ public class Axis implements Serializable {
 	 * 
 	 * @param limits	the desired limits for the bins on the axis
 	 */
+<<<<<<< HEAD
 	public void set(double[] limits) {
+=======
+	public final void set(double[] limits) {
+>>>>>>> f96f98474222705511eda57020f70a0eca7bcbdc
 		axisMargins = new double[limits.length];
         for (int i=0; i<limits.length; i++) {
         	axisMargins[i] = limits[i];
