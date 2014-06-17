@@ -1,5 +1,9 @@
 package org.jlab.cnuphys.histogram;
 
+/**
+ * @author Erin Kirby
+ * @version 061714
+ */
 public class Function1D implements IFunction {
 	
 	ParameterSet paramSet;

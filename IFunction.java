@@ -1,5 +1,10 @@
 package org.jlab.cnuphys.histogram;
 
+/**
+ * 
+ * @author Erin Kirby
+ * @version 061714
+ */
 public interface IFunction {
 
     int     getNpars();

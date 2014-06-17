@@ -2,6 +2,11 @@ package org.jlab.cnuphys.histogram;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author Erin Kirby
+ * @version 061714
+ */
 public class ParameterSet {
 
 ArrayList<Parameter> sParameters;

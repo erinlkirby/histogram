@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 /**
  * Handles the indexing of multidimensional arrays. 
- * 
+ *
  * @author Erin Kirby
- * @version 052714
+ * @version 061714
  */
 public class MultiIndex implements Serializable {
 	private Integer indexDim;

@@ -1,5 +1,9 @@
 package org.jlab.cnuphys.histogram;
 
+/**
+ * @author Erin Kirby
+ * @version 061714
+ */
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -90,7 +94,7 @@ public class Histogram3DTest {
 		}
 		
 		Histogram2D proj = orig.projectionXZ();
-		double[] expected = {4.0, 6.0, 13.0, 14.0};
+		double[] expected = {4.0, 6.0, 12.0, 14.0};
 		double[] actual = proj.offset();
 		
 		for (int i = 0; i < actual.length; i++) {
@@ -112,7 +116,7 @@ public class Histogram3DTest {
 		}
 		
 		Histogram2D proj = orig.projectionYZ();
-		double[] expected = {3.0, 11.0, 7.0, 15.0};
+		double[] expected = {3.0, 7.0, 11.0, 15.0};
 		double[] actual = proj.offset();
 		
 		for (int i = 0; i < actual.length; i++) {

@@ -7,7 +7,7 @@ import java.io.Serializable;
  * a number of bins, a minimum value, and a maximum value
  * 
  * @author Erin Kirby
- * @version 052214
+ * @version 061714
  */
 public class Axis implements Serializable {
 	
@@ -49,11 +49,7 @@ public class Axis implements Serializable {
 	 * 
 	 * @param limits	the desired limits for the bins on the axis
 	 */
-<<<<<<< HEAD
-	public void set(double[] limits) {
-=======
 	public final void set(double[] limits) {
->>>>>>> f96f98474222705511eda57020f70a0eca7bcbdc
 		axisMargins = new double[limits.length];
         for (int i=0; i<limits.length; i++) {
         	axisMargins[i] = limits[i];
@@ -74,12 +70,12 @@ public class Axis implements Serializable {
 	 */
 	public final void set(int bins, double min, double max) {
 		numBins = bins - 1;
-		
+
 		if (min <= max) {
 			minVal = min;
 			maxVal = max;
 		}
-		
+
 		else {
 			minVal = max;
 			maxVal = min;
@@ -88,7 +84,7 @@ public class Axis implements Serializable {
 		axisMargins = new double[bins + 1];
 		for (int i=0; i<=bins; i++) {
     		axisMargins[i] = minVal + i*binWidth;
-    	}
+		}
 	}
 	/**
 	 * A getter for the array of bin limits

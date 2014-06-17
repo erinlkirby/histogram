@@ -4,7 +4,7 @@ package org.jlab.cnuphys.histogram;
  * Specifies the definition for creating and modifying 3-D Histograms.
  * 
  * @author Erin Kirby
- * @version 052914
+ * @version 061714
  */
 public class Histogram3D {
 	
@@ -288,19 +288,19 @@ public class Histogram3D {
 	 */
 	public Histogram2D projectionXY() {
 		String name = "X-Y Projection";
-		int xNum = xAxis.getNBins();
+		int xNum = xAxis.getNBins() + 1;
 		double xMin = xAxis.min();
 		double xMax = xAxis.max();
-		int yNum = yAxis.getNBins();
+		int yNum = yAxis.getNBins() + 1;
 		double yMin = yAxis.min();
 		double yMax = yAxis.max();
 		Histogram2D projXY = new Histogram2D(name, xNum, xMin, xMax, yNum, yMin, yMax);
 		double height = 0.0;
-		for (int x = 0; x < xAxis.getNBins(); x++) {
+		for (int x = 0; x <= xAxis.getNBins(); x++) {
 			height = 0.0;
-			for (int y = 0; y < yAxis.getNBins(); y++) {
+			for (int y = 0; y <= yAxis.getNBins(); y++) {
 				height = 0.0;
-				for (int z = 0; z< zAxis.getNBins(); z++) {
+				for (int z = 0; z<= zAxis.getNBins(); z++) {
 					height += this.getBinContent(x, y, z);
 				}
 				projXY.setBinContent(x, y, height);
@@ -317,19 +317,19 @@ public class Histogram3D {
 	 */
 	public Histogram2D projectionXZ() {
 		String name = "X-Z Projection";
-		int xNum = xAxis.getNBins();
+		int xNum = xAxis.getNBins() + 1;
 		double xMin = xAxis.min();
 		double xMax = xAxis.max();
-		int zNum = zAxis.getNBins();
+		int zNum = zAxis.getNBins() + 1;
 		double zMin = zAxis.min();
 		double zMax = zAxis.max();
 		Histogram2D projXZ = new Histogram2D(name, xNum, xMin, xMax, zNum, zMin, zMax);
 		double height = 0.0;
-		for (int x = 0; x < xAxis.getNBins(); x++) {
+		for (int x = 0; x <= xAxis.getNBins(); x++) {
 			height = 0.0;
-			for (int z = 0; z < zAxis.getNBins(); z++) {
+			for (int z = 0; z <= zAxis.getNBins(); z++) {
 				height = 0.0;
-				for (int y = 0; y< yAxis.getNBins(); y++) {
+				for (int y = 0; y<= yAxis.getNBins(); y++) {
 					height += this.getBinContent(x, y, z);
 				}
 				projXZ.setBinContent(x, z, height);
@@ -346,19 +346,19 @@ public class Histogram3D {
 	 */
 	public Histogram2D projectionYZ() {
 		String name = "Y-Z Projection";
-		int yNum = yAxis.getNBins();
+		int yNum = yAxis.getNBins() + 1;
 		double yMin = yAxis.min();
 		double yMax = yAxis.max();
-		int zNum = zAxis.getNBins();
+		int zNum = zAxis.getNBins() + 1;
 		double zMin = zAxis.min();
 		double zMax = zAxis.max();
 		Histogram2D projYZ = new Histogram2D(name, yNum, yMin, yMax, zNum, zMin, zMax);
 		double height = 0.0;
-		for (int y = 0; y < yAxis.getNBins(); y++) {
+		for (int y = 0; y <= yAxis.getNBins(); y++) {
 			height = 0.0;
-			for (int z = 0; z < zAxis.getNBins(); z++) {
+			for (int z = 0; z <= zAxis.getNBins(); z++) {
 				height = 0.0;
-				for (int x = 0; x< xAxis.getNBins(); x++) {
+				for (int x = 0; x <= xAxis.getNBins(); x++) {
 					height += this.getBinContent(x, y, z);
 				}
 				projYZ.setBinContent(y, z, height);
