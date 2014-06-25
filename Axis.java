@@ -7,11 +7,11 @@ import java.io.Serializable;
  * a number of bins, a minimum value, and a maximum value
  * 
  * @author Erin Kirby
- * @version 061714
+ * @version 062514
  */
 public class Axis implements Serializable {
 	
-	private double[] axisMargins;
+	public double[] axisMargins;
 	private int numBins;
 	private double minVal;
 	private double maxVal;
@@ -161,9 +161,13 @@ public class Axis implements Serializable {
      */
     public int getBin(double xVal) {
     	for (int i = 0; i <= numBins; i++) {
-    		if ((xVal >= axisMargins[i] && xVal <= axisMargins[i+1])) { //There is data overlap here on the margins
+    		if ((xVal >= axisMargins[i] && xVal < axisMargins[i+1])) {
     			return i;
     		}
+    	}
+    	
+    	if (xVal == axisMargins[axisMargins.length - 1]) {
+    		return numBins;
     	}
     	return -1;
     }
