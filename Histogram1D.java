@@ -1,8 +1,5 @@
 package org.jlab.cnuphys.histogram;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 /**
  * Defines the class to create a basic 1D Histogram
  * 
