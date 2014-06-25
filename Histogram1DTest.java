@@ -1,5 +1,9 @@
 package org.jlab.cnuphys.histogram;
 
+/**
+ * @author Erin Kirby
+ * @version 062514
+ */
 import static org.junit.Assert.*;
 
 import org.junit.Test;

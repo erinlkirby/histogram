@@ -342,9 +342,8 @@ public class Histogram2D {
 	/**
 	 * Creates a 1-D Histogram slice of the specified y Bin
 	 * 
-	 * @param yBin
-	 *            the bin on the y axis to create a slice of
-	 * @return a slice of the x bins on the specified y bin as a 1-D Histogram
+	 * @param xBin		the bin on the y axis to create a slice of
+	 * @return 			a slice of the x bins on the specified y bin as a 1-D Histogram
 	 */
 	public Histogram1D sliceX(int xBin) {
 		String name = "Slice of " + xBin + " X Bin";
@@ -363,9 +362,8 @@ public class Histogram2D {
 	/**
 	 * Creates a 1-D Histogram slice of the specified x Bin
 	 * 
-	 * @param xBin
-	 *            the bin on the x axis to create a slice of
-	 * @return a slice of the y bins on the specified x bin as a 1-D Histogram
+	 * @param yBin			the bin on the x axis to create a slice of
+	 * @return 				a slice of the y bins on the specified x bin as a 1-D Histogram
 	 */
 	public Histogram1D sliceY(int yBin) {
 		String name = "Slice of " + yBin + " Y Bin";

@@ -370,7 +370,7 @@ public class Histogram3D {
 	/**
 	 * Creates a slice on the X-Y axis of the specified x bin
 	 * 
-	 * @param xBin		the bin on the z-axis to slice on
+	 * @param zBin		the bin on the z-axis to slice on
 	 * @return			a 2-D Histogram of the X-Y axis on the entered z-axis bin
 	 */
 	public Histogram2D sliceXY(int zBin) {
@@ -395,7 +395,7 @@ public class Histogram3D {
 	/**
 	 * Creates a slice on the X-Z axis of the specified x bin
 	 * 
-	 * @param xBin		the bin on the y-axis to slice on
+	 * @param yBin		the bin on the y-axis to slice on
 	 * @return			a 2-D Histogram of the X-Z axis on the entered y-axis bin
 	 */
 	public Histogram2D sliceXZ(int yBin) {
