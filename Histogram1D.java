@@ -4,7 +4,7 @@ package org.jlab.cnuphys.histogram;
  * Defines the class to create a basic 1D Histogram
  * 
  * @author Erin Kirby
- * @version 062514
+ * @version 062614
  */
 public class Histogram1D {
 
@@ -287,28 +287,30 @@ public class Histogram1D {
     }
     
     /**
-     * Finds the bin that holds that value in its margins 
-     * and increments it by one.
+     * Increments the content in the specified bin by one. The bin is specified in array indexing
+     * format (to increment the 1st bin, enter 0, the 2nd, enter 1, ... , the nth, enter n-1)
      * 
-     * @param val		the value to find which bin holds it.
+     * @param bin		the bin to be incremented, specified in array indexing format.
      */
-    public void incrementBinContent(double val) {
-    	int bin = xAxis.getBin(val);
-    	histogramData[bin] += 1;
-    	histogramDataError[bin] = Math.sqrt(histogramData[bin]);
+    public void incrementBinContent(int bin) {
+    	if (bin >= 0 && bin < histogramData.length) {
+    		histogramData[bin] = histogramData[bin] + 1;
+    		histogramDataError[bin] = Math.sqrt(Math.abs(histogramData[bin]));
+    	}
     }
     
     /**
-     * Finds the bin with that value between its margins
-     * and adds the specified weight
+     * Increments the content in the specified bin by the entered weight. The bin is specified in array indexing
+     * format (to increment the 1st bin, enter 0, the 2nd, enter 1, ... , the nth, enter n-1)
      * 
-     * @param val		The value to add the weight to
-     * @param weight	The weight to add to that value
+     * @param bin		the bin to be incremented, specified in array indexing format.
+     * @param weight	the weight to increment by
      */
-    public void incrementBinContent(double val, double weight) {
-    	int bin = xAxis.getBin(val);
-    	histogramData[bin] += weight;
-    	histogramDataError[bin] = Math.sqrt(histogramData[bin]);
+    public void incrementBinContent(int bin, double weight) {
+    	if (bin >= 0 && bin < histogramData.length) {
+    		histogramData[bin] = histogramData[bin] + weight;
+    		histogramDataError[bin] = Math.sqrt(Math.abs(histogramData[bin]));
+    	}
     }
     
     /**
